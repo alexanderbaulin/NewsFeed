@@ -1,11 +1,19 @@
-package com.baulin.alexander.newsfeed.myJSON;
+package com.baulin.alexander.newsfeed.model.posts;
 
 public class Pagination {
 
-    private String TotalPages;
-    private String PageNo;
-    private String PerPage;
-    private String WebURL;
+    public String TotalPages;
+    public String PageNo;
+    public String PerPage;
+    public String WebURL;
+
+
+    public Pagination(String totalPages, String pageNo, String perPage, String webURL) {
+        TotalPages = totalPages;
+        PageNo = pageNo;
+        PerPage = perPage;
+        WebURL = webURL;
+    }
 
     public String getTotalPages() {
         return TotalPages;

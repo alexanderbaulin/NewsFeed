@@ -9,14 +9,14 @@ import com.baulin.alexander.newsfeed.R;
 
 public class PostViewHolder extends RecyclerView.ViewHolder {
 
-    TextView title, content, author;
+    TextView title, content, date;
 
     public PostViewHolder(@NonNull View itemView) {
         super(itemView);
 
         title = itemView.findViewById(R.id.txtTitle);
         content = itemView.findViewById(R.id.txtContent);
-        author = itemView.findViewById(R.id.txtAuthor);
+        date = itemView.findViewById(R.id.txtDate);
 
 
     }

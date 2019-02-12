@@ -1,15 +1,15 @@
-package com.baulin.alexander.newsfeed.retrofit;
+package com.baulin.alexander.newsfeed.model.retrofit;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitClient {
+public class  RetrofitClient {
     private static Retrofit instance;
 
     public static Retrofit getInstance() {
         if(instance == null) instance = new Retrofit.Builder()
-                .baseUrl("https://jsonplaceholder.typicode.com/")
+                .baseUrl("http://timesofindia.indiatimes.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();

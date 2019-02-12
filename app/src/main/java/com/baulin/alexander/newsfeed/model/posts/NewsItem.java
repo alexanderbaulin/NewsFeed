@@ -1,22 +1,36 @@
-package com.baulin.alexander.newsfeed.myJSON;
-
-import com.baulin.alexander.newsfeed.myJSON.Image;
+package com.baulin.alexander.newsfeed.model.posts;
 
 public class NewsItem {
 
-    private String NewsItemId;
-    private String HeadLine;
-    private String ByLine;
-    private String Agency;
-    private String DateLine;
-    private String WebURL;
-    private String Caption;
-    private Image Image;
-    private String Keywords;
-    private String Story;
-    private String CommentCountUrl;
-    private String CommentFeedUrl;
-    private String Related;
+    public String NewsItemId;
+    public String HeadLine;
+    public String ByLine;
+    public String Agency;
+    public String DateLine;
+    public String WebURL;
+    public String Caption;
+    public Image Image;
+    public String Keywords;
+    public String Story;
+    public String CommentCountUrl;
+    public String CommentFeedUrl;
+    public String Related;
+
+    public NewsItem(String newsItemId, String headLine, String byLine, String agency, String dateLine, String webURL, String caption, com.baulin.alexander.newsfeed.model.posts.Image image, String keywords, String story, String commentCountUrl, String commentFeedUrl, String related) {
+        NewsItemId = newsItemId;
+        HeadLine = headLine;
+        ByLine = byLine;
+        Agency = agency;
+        DateLine = dateLine;
+        WebURL = webURL;
+        Caption = caption;
+        Image = image;
+        Keywords = keywords;
+        Story = story;
+        CommentCountUrl = commentCountUrl;
+        CommentFeedUrl = commentFeedUrl;
+        Related = related;
+    }
 
     public String getNewsItemId() {
         return NewsItemId;
@@ -74,11 +88,11 @@ public class NewsItem {
         Caption = caption;
     }
 
-    public com.baulin.alexander.newsfeed.myJSON.Image getImage() {
+    public com.baulin.alexander.newsfeed.model.posts.Image getImage() {
         return Image;
     }
 
-    public void setImage(com.baulin.alexander.newsfeed.myJSON.Image image) {
+    public void setImage(com.baulin.alexander.newsfeed.model.posts.Image image) {
         Image = image;
     }
 

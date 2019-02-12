@@ -1,10 +1,16 @@
-package com.baulin.alexander.newsfeed.myJSON;
+package com.baulin.alexander.newsfeed.model.posts;
 
 public class Image {
 
-    private String Photo;
-    private String Thumb;
-    private String PhotoCaption;
+    public String Photo;
+    public String Thumb;
+    public String PhotoCaption;
+
+    public Image(String photo, String thumb, String photoCaption) {
+        Photo = photo;
+        Thumb = thumb;
+        PhotoCaption = photoCaption;
+    }
 
     public String getPhoto() {
         return Photo;

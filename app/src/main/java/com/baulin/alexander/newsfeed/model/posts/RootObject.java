@@ -1,14 +1,18 @@
-package com.baulin.alexander.newsfeed.myJSON;
+package com.baulin.alexander.newsfeed.model.posts;
 
-import com.baulin.alexander.newsfeed.myJSON.NewsItem;
-import com.baulin.alexander.newsfeed.myJSON.Pagination;
+
 
 import java.util.List;
 
 public class RootObject {
 
-    private com.baulin.alexander.newsfeed.myJSON.Pagination Pagination;
-    private List<com.baulin.alexander.newsfeed.myJSON.NewsItem> NewsItem;
+    public Pagination Pagination;
+    public List<NewsItem> NewsItem;
+
+    public RootObject(Pagination pagination, List<NewsItem> newsItem) {
+        Pagination = pagination;
+        NewsItem = newsItem;
+    }
 
     public Pagination getPagination() {
         return Pagination;

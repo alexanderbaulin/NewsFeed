@@ -8,16 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.baulin.alexander.newsfeed.R;
-import com.baulin.alexander.newsfeed.model.Post;
-
-import java.util.List;
+import com.baulin.alexander.newsfeed.model.posts.NewsItem;
+import com.baulin.alexander.newsfeed.model.posts.RootObject;
 
 public class PostAdapter extends RecyclerView.Adapter<PostViewHolder> {
 
     Context context;
-    List<Post> posts;
+    RootObject posts;
 
-    public PostAdapter(Context context, List<Post> posts) {
+    public PostAdapter(Context context, RootObject posts) {
         this.context = context;
         this.posts = posts;
     }
@@ -31,14 +30,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
-        holder.author.setText(String.valueOf(posts.get(position).id));
-        holder.title.setText(String.valueOf(posts.get(position).title));
-        holder.content.setText(new StringBuilder(posts.get(position).body.substring(0, 20)));
+        NewsItem item = posts.getNewsItem().get(position);
 
+        holder.title.setText(item.getHeadLine());
+        holder.content.setText(item.getStory().substring(0, 40).concat("..."));
+        holder.date.setText(item.getDateLine());
     }
 
     @Override
     public int getItemCount() {
-        return posts.size();
+        return posts.getNewsItem().size();
     }
 }
