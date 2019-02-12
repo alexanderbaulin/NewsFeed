@@ -33,7 +33,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder> {
         NewsItem item = posts.getNewsItem().get(position);
 
         holder.title.setText(item.getHeadLine());
-        holder.content.setText(item.getStory().substring(0, 40).concat("..."));
+        if(!item.getStory().isEmpty())
+            holder.content.setText(new StringBuilder(item.getStory().substring(0, 40).concat("...")));
+        else
+            holder.content.setText("");
         holder.date.setText(item.getDateLine());
     }
 

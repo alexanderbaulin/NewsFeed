@@ -1,5 +1,6 @@
 package com.baulin.alexander.newsfeed.view;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,11 +19,12 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 
-public class Main extends AppCompatActivity {
+public class Main extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     RetrofitAPI myAPI;
     RecyclerView recyclerView;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +33,16 @@ public class Main extends AppCompatActivity {
 
         Retrofit retrofit = RetrofitClient.getInstance();
         myAPI = retrofit.create(RetrofitAPI.class);
-        recyclerView = findViewById(R.id.recView);
 
+        recyclerView = findViewById(R.id.recView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        fetch();
+        swipeRefreshLayout = findViewById(R.id.swiperefresh);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
+        swipeRefreshLayout.setOnRefreshListener(this);
 
+        fetch();
 
     }
 
@@ -55,6 +60,7 @@ public class Main extends AppCompatActivity {
                 @Override
                 public void accept(RootObject posts) throws Exception {
                     displayData(posts);
+                    swipeRefreshLayout.setRefreshing(false);
                     Log.d("myLogs", "pageNumber " + posts.getNewsItem().get(1).getHeadLine());
                 }
             })
@@ -71,5 +77,10 @@ public class Main extends AppCompatActivity {
     protected void onStop() {
         compositeDisposable.clear();
         super.onStop();
+    }
+
+    @Override
+    public void onRefresh() {
+        fetch();
     }
 }
