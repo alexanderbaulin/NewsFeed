@@ -1,9 +1,9 @@
-package com.baulin.alexander.newsfeed.model.retrofit;
+package com.baulin.alexander.newsfeed.mvp.presenter.retrofit;
 
 
 
 
-import com.baulin.alexander.newsfeed.model.posts.RootObject;
+import com.baulin.alexander.newsfeed.mvp.model.posts.RootObject;
 
 
 

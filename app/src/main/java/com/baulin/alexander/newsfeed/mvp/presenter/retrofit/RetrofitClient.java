@@ -1,4 +1,4 @@
-package com.baulin.alexander.newsfeed.model.retrofit;
+package com.baulin.alexander.newsfeed.mvp.presenter.retrofit;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;

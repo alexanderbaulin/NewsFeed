@@ -1,4 +1,4 @@
-package com.baulin.alexander.newsfeed.model.posts;
+package com.baulin.alexander.newsfeed.mvp.model.posts;
 
 
 

@@ -1,4 +1,4 @@
-package com.baulin.alexander.newsfeed.model.posts;
+package com.baulin.alexander.newsfeed.mvp.model.posts;
 
 public class NewsItem {
 
@@ -16,7 +16,7 @@ public class NewsItem {
     public String CommentFeedUrl;
     public String Related;
 
-    public NewsItem(String newsItemId, String headLine, String byLine, String agency, String dateLine, String webURL, String caption, com.baulin.alexander.newsfeed.model.posts.Image image, String keywords, String story, String commentCountUrl, String commentFeedUrl, String related) {
+    public NewsItem(String newsItemId, String headLine, String byLine, String agency, String dateLine, String webURL, String caption, com.baulin.alexander.newsfeed.mvp.model.posts.Image image, String keywords, String story, String commentCountUrl, String commentFeedUrl, String related) {
         NewsItemId = newsItemId;
         HeadLine = headLine;
         ByLine = byLine;
@@ -88,11 +88,11 @@ public class NewsItem {
         Caption = caption;
     }
 
-    public com.baulin.alexander.newsfeed.model.posts.Image getImage() {
+    public com.baulin.alexander.newsfeed.mvp.model.posts.Image getImage() {
         return Image;
     }
 
-    public void setImage(com.baulin.alexander.newsfeed.model.posts.Image image) {
+    public void setImage(com.baulin.alexander.newsfeed.mvp.model.posts.Image image) {
         Image = image;
     }
 
