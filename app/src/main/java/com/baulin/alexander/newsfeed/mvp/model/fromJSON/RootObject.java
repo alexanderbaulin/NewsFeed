@@ -1,4 +1,4 @@
-package com.baulin.alexander.newsfeed.mvp.model.posts;
+package com.baulin.alexander.newsfeed.mvp.model.fromJSON;
 
 
 
@@ -7,9 +7,9 @@ import java.util.List;
 public class RootObject {
 
     public Pagination Pagination;
-    public List<NewsItem> NewsItem;
+    public List<NewsItemJSON> NewsItem;
 
-    public RootObject(Pagination pagination, List<NewsItem> newsItem) {
+    public RootObject(Pagination pagination, List<NewsItemJSON> newsItem) {
         Pagination = pagination;
         NewsItem = newsItem;
     }
@@ -22,11 +22,11 @@ public class RootObject {
         Pagination = pagination;
     }
 
-    public List<NewsItem> getNewsItem() {
+    public List<NewsItemJSON> getNewsItem() {
         return NewsItem;
     }
 
-    public void setNewsItem(List<NewsItem> newsItem) {
+    public void setNewsItem(List<NewsItemJSON> newsItem) {
         NewsItem = newsItem;
     }
 

@@ -6,4 +6,6 @@ public interface Presenter {
     void refreshPosts();
     void onStopActivity();
     void setActivity(Main activity);
+
+    void refreshPosts2();
 }

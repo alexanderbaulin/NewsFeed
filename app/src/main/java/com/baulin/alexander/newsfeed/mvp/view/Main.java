@@ -13,10 +13,9 @@ import com.baulin.alexander.newsfeed.mvp.presenter.retrofit.RetrofitAPI;
 import com.baulin.alexander.newsfeed.mvp.presenter.retrofit.RetrofitClient;
 import com.baulin.alexander.newsfeed.mvp.view.adapter.PostAdapter;
 import com.baulin.alexander.newsfeed.mvp.interfaces.View;
-import com.baulin.alexander.newsfeed.mvp.model.posts.RootObject;
+import com.baulin.alexander.newsfeed.mvp.model.fromJSON.RootObject;
 
 
-import io.reactivex.disposables.CompositeDisposable;
 import retrofit2.Retrofit;
 
 
@@ -54,8 +53,13 @@ public class Main extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
             Log.d("myLogs", "savedInstanceState == null");
                 loadNews();
         } else {
+            loadFromCash();
             Log.d("myLogs", "savedInstanceState != null");
         }
+    }
+
+    private void loadFromCash() {
+        presenter.refreshPosts2();
     }
 
     @Override

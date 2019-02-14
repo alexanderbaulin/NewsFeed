@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.baulin.alexander.newsfeed.R;
-import com.baulin.alexander.newsfeed.mvp.model.posts.NewsItem;
-import com.baulin.alexander.newsfeed.mvp.model.posts.RootObject;
+import com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItemJSON;
+import com.baulin.alexander.newsfeed.mvp.model.fromJSON.RootObject;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
 
@@ -32,13 +32,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final PostViewHolder holder, int position) {
-        NewsItem item = posts.getNewsItem().get(position);
+        NewsItemJSON item = posts.getNewsItem().get(position);
 
         holder.title.setText(item.getHeadLine());
+
         if(!item.getStory().isEmpty())
             holder.content.setText(new StringBuilder(item.getStory().substring(0, 40).concat("...")));
         else
             holder.content.setText("");
+
         holder.date.setText(item.getDateLine());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
