@@ -7,7 +7,7 @@ import com.baulin.alexander.newsfeed.mvp.interfaces.Model;
 import com.baulin.alexander.newsfeed.mvp.model.fromJSON.RootObject;
 import com.baulin.alexander.newsfeed.mvp.presenter.retrofit.RetrofitAPI;
 import com.baulin.alexander.newsfeed.mvp.presenter.retrofit.RetrofitClient;
-import com.baulin.alexander.newsfeed.mvp.view.Main;
+import com.baulin.alexander.newsfeed.mvp.view.activities.Main;
 import com.baulin.alexander.newsfeed.mvp.interfaces.View;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -45,10 +45,9 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
                         @Override
                         public void accept(Throwable throwable) throws Exception {
                             Log.d("error", "error accept ");
-                            compositeDisposable.dispose();
                             getPosts(true);
                             main.setRefreshLayout(false);
-
+                            compositeDisposable.dispose();
                         }
                     })
                     .subscribe(new Consumer<RootObject>() {

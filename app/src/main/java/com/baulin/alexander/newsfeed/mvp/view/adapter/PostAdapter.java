@@ -1,6 +1,7 @@
 package com.baulin.alexander.newsfeed.mvp.view.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
@@ -15,6 +16,7 @@ import com.baulin.alexander.newsfeed.MyApplication;
 import com.baulin.alexander.newsfeed.R;
 import com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItemJSON;
 import com.baulin.alexander.newsfeed.mvp.model.fromJSON.RootObject;
+import com.baulin.alexander.newsfeed.mvp.view.activities.OfflinePost;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
 
@@ -29,7 +31,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @NonNull
     @Override
     public PostViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.post_item, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.post_recycle_item, viewGroup, false);
         return new PostViewHolder(view);
     }
 
@@ -43,13 +45,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = item.getWebURL();
-                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                builder.setToolbarColor(MyApplication.getContext().getResources().getColor(R.color.colorPrimaryDark));
-                builder.setSecondaryToolbarColor(MyApplication.getContext().getResources().getColor(R.color.colorPrimary));
-                CustomTabsIntent customTabsIntent = builder.build();
-                customTabsIntent.launchUrl(MyApplication.getContext(), Uri.parse(url));
-                Log.d("myLogs", "onClick " + posts.getNewsItem().get(holder.getAdapterPosition()).getHeadLine());
+                if(MyApplication.haveNetworkConnection()) {
+                    String url = item.getWebURL();
+                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                    builder.setToolbarColor(MyApplication.getContext().getResources().getColor(R.color.colorPrimaryDark));
+                    builder.setSecondaryToolbarColor(MyApplication.getContext().getResources().getColor(R.color.colorPrimary));
+                    CustomTabsIntent customTabsIntent = builder.build();
+                    customTabsIntent.launchUrl(MyApplication.getContext(), Uri.parse(url));
+                    Log.d("myLogs", "onClick " + posts.getNewsItem().get(holder.getAdapterPosition()).getHeadLine());
+                } else {
+                    Intent i = new Intent(MyApplication.getContext(), OfflinePost.class);
+                    i.putExtra("1", item.getHeadLine());
+                    i.putExtra("2", item.getStory());
+                    MyApplication.getContext().startActivity(i);
+                }
             }
         });
 
