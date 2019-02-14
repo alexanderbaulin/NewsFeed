@@ -30,7 +30,6 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
     public Presenter() {
         Retrofit retrofit = RetrofitClient.getInstance();
         myAPI = retrofit.create(RetrofitAPI.class);
-        compositeDisposable = new CompositeDisposable();
     }
 
     @Override
@@ -38,16 +37,27 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
         if(fromCache) {
             main.displayData(new RootObject(null, dataBase.read()));
         } else {
+            compositeDisposable = new CompositeDisposable();
             compositeDisposable.add(myAPI.getPostsFromJSON()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
+                    .doOnError(new Consumer<Throwable>() {
+                        @Override
+                        public void accept(Throwable throwable) throws Exception {
+                            Log.d("error", "error accept ");
+                            compositeDisposable.dispose();
+                            getPosts(true);
+                            main.setRefreshLayout(false);
+
+                        }
+                    })
                     .subscribe(new Consumer<RootObject>() {
                         @Override
                         public void accept(RootObject posts) throws Exception {
+                            Log.d("error", "subcribe " + posts.getNewsItem().get(1).getHeadLine());
                             dataBase.rewrite(posts.getNewsItem());
                             main.displayData(posts);
                             main.setRefreshLayout(false);
-                            Log.d("myLogs", "pageNumber " + posts.getNewsItem().get(1).getHeadLine());
                         }
                     })
             );
@@ -56,6 +66,7 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
 
     @Override
     public void onStopActivity() {
+        if(compositeDisposable != null)
         compositeDisposable.dispose();
     }
 }
