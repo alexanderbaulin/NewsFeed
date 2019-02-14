@@ -35,12 +35,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         NewsItemJSON item = posts.getNewsItem().get(position);
 
         holder.title.setText(item.getHeadLine());
-
-        if(!item.getStory().isEmpty())
-            holder.content.setText(new StringBuilder(item.getStory().substring(0, 40).concat("...")));
-        else
-            holder.content.setText("");
-
+        holder.content.setText(item.getStory());
         holder.date.setText(item.getDateLine());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
