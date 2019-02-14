@@ -1,7 +1,9 @@
 package com.baulin.alexander.newsfeed.mvp.view.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.baulin.alexander.newsfeed.MyApplication;
 import com.baulin.alexander.newsfeed.R;
 import com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItemJSON;
 import com.baulin.alexander.newsfeed.mvp.model.fromJSON.RootObject;
@@ -40,6 +43,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String url = item.getWebURL();
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                builder.setToolbarColor(MyApplication.getContext().getResources().getColor(R.color.colorPrimaryDark));
+                builder.setSecondaryToolbarColor(MyApplication.getContext().getResources().getColor(R.color.colorPrimary));
+                CustomTabsIntent customTabsIntent = builder.build();
+                customTabsIntent.launchUrl(MyApplication.getContext(), Uri.parse(url));
                 Log.d("myLogs", "onClick " + posts.getNewsItem().get(holder.getAdapterPosition()).getHeadLine());
             }
         });

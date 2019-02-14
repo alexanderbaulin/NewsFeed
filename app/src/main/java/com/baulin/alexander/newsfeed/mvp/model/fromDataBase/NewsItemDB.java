@@ -6,6 +6,7 @@ public class NewsItemDB extends RealmObject {
     private String title;
     private String story;
     private String data;
+    private String url;
 
 
     public String getTitle() {
@@ -30,5 +31,13 @@ public class NewsItemDB extends RealmObject {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

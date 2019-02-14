@@ -34,6 +34,7 @@ public class DataBase {
                     realmObject.setTitle(item.getHeadLine());
                     realmObject.setStory(item.getStory());
                     realmObject.setData(item.getDateLine());
+                    realmObject.setUrl(item.getWebURL());
                     Log.d("myLogs", "add dataItem " + realmObject.getTitle());
                 }
             }
@@ -65,6 +66,7 @@ public class DataBase {
                                                   item.setHeadLine(post.getTitle());
                                                   item.setStory(post.getStory());
                                                   item.setDateLine(post.getData());
+                                                  item.setWebURL(post.getUrl());
                                                   Log.d("myLogs", "return item " + post.getTitle());
                                                   list.add(item);
                                               }
