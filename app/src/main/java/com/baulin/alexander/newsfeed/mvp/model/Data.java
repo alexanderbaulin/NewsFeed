@@ -14,12 +14,12 @@ public class Data implements Model {
     private DataBase dataBase = new DataBase();
 
     @Override
-    public List<NewsItemJSON> refreshPosts() {
+    public List<NewsItemJSON> read() {
         return dataBase.getData();
     }
 
     @Override
-    public void set(List<NewsItemJSON> posts) {
+    public void rewrite(List<NewsItemJSON> posts) {
         Log.d("myLogs", "execute transaction ");
         dataBase.setData(posts);
     }

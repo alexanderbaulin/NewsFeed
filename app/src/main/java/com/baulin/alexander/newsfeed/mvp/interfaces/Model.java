@@ -5,6 +5,6 @@ import com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItemJSON;
 import java.util.List;
 
 public interface Model {
-    List<NewsItemJSON> refreshPosts();
-    void set(List<NewsItemJSON> posts);
+    List<NewsItemJSON> read();
+    void rewrite(List<NewsItemJSON> posts);
 }

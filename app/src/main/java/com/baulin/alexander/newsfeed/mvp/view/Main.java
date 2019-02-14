@@ -51,25 +51,18 @@ public class Main extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
 
         if(savedInstanceState == null) {
             Log.d("myLogs", "savedInstanceState == null");
-                loadNews();
+                presenter.getPosts(false);
         } else {
-            loadFromCash();
+                presenter.getPosts(true);
             Log.d("myLogs", "savedInstanceState != null");
         }
     }
 
-    private void loadFromCash() {
-        presenter.refreshPosts2();
-    }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-    }
-
-    private void loadNews() {
-        presenter.refreshPosts();
     }
 
     @Override
@@ -80,7 +73,7 @@ public class Main extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
 
     @Override
     public void onRefresh() {
-        loadNews();
+        presenter.getPosts(false);
     }
 
     @Override
