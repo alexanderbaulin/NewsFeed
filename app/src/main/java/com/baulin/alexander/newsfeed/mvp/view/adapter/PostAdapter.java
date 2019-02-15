@@ -25,7 +25,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     public PostAdapter(Context context) {
         this.context = context;
-        this.posts = posts;
     }
 
     @NonNull
@@ -33,6 +32,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     public PostViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.post_recycle_item, viewGroup, false);
         return new PostViewHolder(view);
+    }
+
+    @Override
+    public int getItemCount() {
+        return posts.getNewsItem().size();
+    }
+
+    public void setPosts(RootNewsObject posts) {
+        this.posts = posts;
     }
 
     @Override
@@ -46,31 +54,29 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             @Override
             public void onClick(View v) {
                 if(MyApplication.haveNetworkConnection()) {
-                    String url = item.getWebURL();
-                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                    builder.setToolbarColor(MyApplication.getContext().getResources().getColor(R.color.colorPrimaryDark));
-                    builder.setSecondaryToolbarColor(MyApplication.getContext().getResources().getColor(R.color.colorPrimary));
-                    CustomTabsIntent customTabsIntent = builder.build();
-                    customTabsIntent.launchUrl(MyApplication.getContext(), Uri.parse(url));
+                    startGhromeTabs(item.getWebURL());
                     Log.d("myLogs", "onClick " + posts.getNewsItem().get(holder.getAdapterPosition()).getHeadLine());
                 } else {
-                    Intent i = new Intent(MyApplication.getContext(), OfflinePost.class);
-                    i.putExtra("1", item.getHeadLine());
-                    i.putExtra("2", item.getStory());
-                    MyApplication.getContext().startActivity(i);
+                    startActivity(item);
                 }
             }
         });
 
     }
 
-    @Override
-    public int getItemCount() {
-        return posts.getNewsItem().size();
+    private void startActivity(NewsItemJSON item) {
+        Intent i = new Intent(MyApplication.getContext(), OfflinePost.class);
+        i.putExtra("1", item.getHeadLine());
+        i.putExtra("2", item.getStory());
+        MyApplication.getContext().startActivity(i);
     }
 
-    public void setPosts(RootNewsObject posts) {
-        this.posts = posts;
+    private void startGhromeTabs(String webURL) {
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        builder.setToolbarColor(MyApplication.getContext().getResources().getColor(R.color.colorPrimaryDark));
+        builder.setSecondaryToolbarColor(MyApplication.getContext().getResources().getColor(R.color.colorPrimary));
+        CustomTabsIntent customTabsIntent = builder.build();
+        customTabsIntent.launchUrl(MyApplication.getContext(), Uri.parse(webURL));
     }
 
     public class PostViewHolder extends RecyclerView.ViewHolder {
