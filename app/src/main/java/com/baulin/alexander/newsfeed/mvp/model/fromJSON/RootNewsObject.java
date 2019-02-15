@@ -4,12 +4,12 @@ package com.baulin.alexander.newsfeed.mvp.model.fromJSON;
 
 import java.util.List;
 
-public class RootObject {
+public class RootNewsObject {
 
     public Pagination Pagination;
     public List<NewsItemJSON> NewsItem;
 
-    public RootObject(Pagination pagination, List<NewsItemJSON> newsItem) {
+    public RootNewsObject(Pagination pagination, List<NewsItemJSON> newsItem) {
         Pagination = pagination;
         NewsItem = newsItem;
     }

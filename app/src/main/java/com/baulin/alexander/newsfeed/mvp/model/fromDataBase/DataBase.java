@@ -13,7 +13,7 @@ import io.realm.RealmResults;
 
 public class DataBase {
 
-   private Realm realm;
+    private Realm realm;
 
     public DataBase() {
         realm = Realm.getDefaultInstance();
@@ -21,7 +21,7 @@ public class DataBase {
 
     public void setData(List<NewsItemJSON> posts) {
         Log.d("myLogs", "execute transaction 2");
-      //  realm.beginTransaction();
+
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(@NonNull Realm realm) {
@@ -42,36 +42,40 @@ public class DataBase {
             @Override
             public void onSuccess() {
                 Log.d("myLogs", "db write success");
-               // realm.commitTransaction();
             }
         }, new Realm.Transaction.OnError() {
             @Override
             public void onError(@NonNull Throwable error) {
                 Log.d("myLogs", "db write error");
-               // realm.cancelTransaction();
             }
         });
     }
 
-    public List<NewsItemJSON> getData() {
+    public List<NewsItemJSON> getData(boolean executeAsyncTransaction) {
 
-        final List<NewsItemJSON> list = new LinkedList<>();;
+        final List<NewsItemJSON> list = new LinkedList<>();
 
-        realm.executeTransactionAsync(new Realm.Transaction() {
-                 @Override
-                  public void execute(@NonNull Realm realm) {
-                  RealmResults<NewsItemDB> posts = realm.where(NewsItemDB.class).findAll();
-                                              for (NewsItemDB post : posts) {
-                                                  NewsItemJSON item = new NewsItemJSON();
-                                                  item.setHeadLine(post.getTitle());
-                                                  item.setStory(post.getStory());
-                                                  item.setDateLine(post.getData());
-                                                  item.setWebURL(post.getUrl());
-                                                  Log.d("myLogs", "return item " + post.getTitle());
-                                                  list.add(item);
-                                              }
-                                          }
-                                      });
+        Realm.Transaction transaction = new Realm.Transaction() {
+            @Override
+            public void execute(@NonNull Realm realm) {
+                RealmResults<NewsItemDB> posts = realm.where(NewsItemDB.class).findAll();
+                for (NewsItemDB post : posts) {
+                    NewsItemJSON item = new NewsItemJSON();
+                    item.setHeadLine(post.getTitle());
+                    item.setStory(post.getStory());
+                    item.setDateLine(post.getData());
+                    item.setWebURL(post.getUrl());
+                    Log.d("myLogs", "return item " + post.getTitle());
+                    list.add(item);
+                }
+            }
+        };
+        if(executeAsyncTransaction) {
+            realm.executeTransactionAsync(transaction);
+        } else {
+            realm.executeTransaction(transaction);
+        }
+
         return list;
     }
 }

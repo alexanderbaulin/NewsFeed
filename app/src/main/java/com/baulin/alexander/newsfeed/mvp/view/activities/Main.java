@@ -13,7 +13,7 @@ import com.baulin.alexander.newsfeed.mvp.presenter.retrofit.RetrofitAPI;
 import com.baulin.alexander.newsfeed.mvp.presenter.retrofit.RetrofitClient;
 import com.baulin.alexander.newsfeed.mvp.view.adapter.PostAdapter;
 import com.baulin.alexander.newsfeed.mvp.interfaces.View;
-import com.baulin.alexander.newsfeed.mvp.model.fromJSON.RootObject;
+import com.baulin.alexander.newsfeed.mvp.model.fromJSON.RootNewsObject;
 
 
 import retrofit2.Retrofit;
@@ -77,7 +77,7 @@ public class Main extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
     }
 
     @Override
-    public void displayData(RootObject posts) {
+    public void displayData(RootNewsObject posts) {
         adapter.setPosts(posts);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();

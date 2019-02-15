@@ -14,8 +14,8 @@ public class Data implements Model {
     private DataBase dataBase = new DataBase();
 
     @Override
-    public List<NewsItemJSON> read() {
-        return dataBase.getData();
+    public List<NewsItemJSON> read(boolean executeAsync) {
+        return dataBase.getData(executeAsync);
     }
 
     @Override

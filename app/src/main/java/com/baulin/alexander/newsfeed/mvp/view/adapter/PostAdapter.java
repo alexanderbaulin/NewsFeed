@@ -15,13 +15,13 @@ import android.widget.TextView;
 import com.baulin.alexander.newsfeed.MyApplication;
 import com.baulin.alexander.newsfeed.R;
 import com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItemJSON;
-import com.baulin.alexander.newsfeed.mvp.model.fromJSON.RootObject;
+import com.baulin.alexander.newsfeed.mvp.model.fromJSON.RootNewsObject;
 import com.baulin.alexander.newsfeed.mvp.view.activities.OfflinePost;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
 
     Context context;
-    RootObject posts;
+    RootNewsObject posts;
 
     public PostAdapter(Context context) {
         this.context = context;
@@ -69,7 +69,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         return posts.getNewsItem().size();
     }
 
-    public void setPosts(RootObject posts) {
+    public void setPosts(RootNewsObject posts) {
         this.posts = posts;
     }
 
