@@ -4,6 +4,11 @@ import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
+
+import com.baulin.alexander.newsfeed.dagger2.components.AppComponent;
+import com.baulin.alexander.newsfeed.dagger2.components.DaggerAppComponent;
+import com.baulin.alexander.newsfeed.dagger2.modules.AppModule;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -12,6 +17,7 @@ public class MyApplication extends Application {
 
     private static MyApplication instance;
     private static ConnectivityManager cm;
+    private static AppComponent component;
 
     @Override
     public void onCreate() {
@@ -26,10 +32,20 @@ public class MyApplication extends Application {
                 .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(config);
+
+        component = DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .build();
+
+       // Log.d("myLogs","context = " + component.getContext());
+    }
+
+    public static AppComponent getComponent() {
+        return component;
     }
 
     public static Context getContext() {
-        return instance.getApplicationContext();
+        return component.getContext();
     }
 
     public static boolean haveNetworkConnection() {

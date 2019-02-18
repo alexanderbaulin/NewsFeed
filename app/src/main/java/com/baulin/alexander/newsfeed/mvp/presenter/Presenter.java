@@ -1,8 +1,11 @@
 package com.baulin.alexander.newsfeed.mvp.presenter;
 
 import android.annotation.SuppressLint;
+import android.app.Application;
 import android.util.Log;
 
+import com.baulin.alexander.newsfeed.MyApplication;
+import com.baulin.alexander.newsfeed.dagger2.components.AppComponent;
 import com.baulin.alexander.newsfeed.mvp.model.Data;
 import com.baulin.alexander.newsfeed.mvp.interfaces.Model;
 import com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItem;
@@ -14,6 +17,8 @@ import com.baulin.alexander.newsfeed.mvp.interfaces.View;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -23,7 +28,9 @@ import retrofit2.Retrofit;
 
 public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.Presenter {
 
-    Model data = new Data();
+    @Inject
+    Model data;
+
     View main;
     RetrofitAPI myAPI;
     CompositeDisposable compositeDisposable;
@@ -33,6 +40,9 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
     }
 
     public Presenter() {
+        AppComponent component = MyApplication.getComponent();
+        if(component != null) component.injectPresenter(this);
+
         Retrofit retrofit = RetrofitClient.getInstance();
         myAPI = retrofit.create(RetrofitAPI.class);
     }

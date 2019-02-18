@@ -18,6 +18,8 @@ import com.baulin.alexander.newsfeed.mvp.interfaces.View;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import retrofit2.Retrofit;
 
 
