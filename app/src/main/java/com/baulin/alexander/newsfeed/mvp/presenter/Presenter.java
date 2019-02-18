@@ -23,7 +23,7 @@ import retrofit2.Retrofit;
 
 public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.Presenter {
 
-    Model dataBase = new Data();
+    Model data = new Data();
     View main;
     RetrofitAPI myAPI;
     CompositeDisposable compositeDisposable;
@@ -41,7 +41,7 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
     @Override
     public void getPosts(boolean fromCache) {
         if(fromCache) {
-            Observable.just(dataBase.read(false))
+            Observable.just(data.read())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<List<NewsItem>>() {
@@ -69,7 +69,7 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
                         @Override
                         public void accept(RootNewsObject posts) throws Exception {
                             Log.d("error", "subcribe " + posts.getNewsItem().get(1).getHeadLine());
-                            dataBase.rewrite(posts.getNewsItem());
+                            data.rewrite(posts.getNewsItem());
                             main.displayData(posts.getNewsItem());
                             main.setRefreshLayout(false);
                         }

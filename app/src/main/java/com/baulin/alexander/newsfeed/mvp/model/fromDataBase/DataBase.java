@@ -51,7 +51,7 @@ public class DataBase {
         });
     }
 
-    public List<NewsItem> getData(boolean executeAsyncTransaction) {
+    public List<NewsItem> getData() {
 
         final List<NewsItem> list = new LinkedList<>();
 
@@ -70,11 +70,8 @@ public class DataBase {
                 }
             }
         };
-        if(executeAsyncTransaction) {
-            realm.executeTransactionAsync(transaction);
-        } else {
-            realm.executeTransaction(transaction);
-        }
+
+        realm.executeTransaction(transaction);
 
         return list;
     }

@@ -5,6 +5,6 @@ import com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItem;
 import java.util.List;
 
 public interface Model {
-    List<NewsItem> read(boolean executeAsync);
+    List<NewsItem> read();
     void rewrite(List<NewsItem> posts);
 }
