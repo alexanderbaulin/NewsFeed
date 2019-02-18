@@ -37,11 +37,20 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
         myAPI = retrofit.create(RetrofitAPI.class);
     }
 
-
+    @SuppressLint("CheckResult")
     @Override
     public void getPosts(boolean fromCache) {
         if(fromCache) {
-            main.displayData(dataBase.read(true));
+            Observable.just(dataBase.read(false))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<List<NewsItem>>() {
+                        @Override
+                        public void accept(List<NewsItem> newsItemJSONS) throws Exception {
+                            main.displayData(newsItemJSONS);
+                            main.setRefreshLayout(false);
+                        }
+                    });
         } else {
             compositeDisposable = new CompositeDisposable();
             compositeDisposable.add(myAPI.getPostsFromJSON()
@@ -53,16 +62,6 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
                         public void accept(Throwable throwable) throws Exception {
                             Log.d("error", "error accept ");
                             getPosts(true);
-                            main.setRefreshLayout(false);
-                            Observable.just(dataBase.read(false))
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(new Consumer<List<NewsItem>>() {
-                                        @Override
-                                        public void accept(List<NewsItem> newsItemJSONS) throws Exception {
-                                            main.displayData(newsItemJSONS);
-                                        }
-                                    });
                             compositeDisposable.dispose();
                         }
                     })
@@ -79,26 +78,9 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
         }
     }
 
-
     @Override
     public void onStopActivity() {
         if(compositeDisposable != null)
         compositeDisposable.dispose();
     }
 }
-
- /*
-    @SuppressLint("CheckResult")
-    private void readAndDisplayData() {
-        Observable.just(data.read())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<NewsItem>>() {
-                    @Override
-                    public void accept(List<NewsItem> newsItems) throws Exception {
-                        main.displayData(newsItems);
-                        main.setRefreshLayout(false);
-                    }
-                });
-    }
-    */
