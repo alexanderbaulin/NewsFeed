@@ -18,10 +18,12 @@ import com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItem;
 import com.baulin.alexander.newsfeed.mvp.model.fromJSON.RootNewsObject;
 import com.baulin.alexander.newsfeed.mvp.view.activities.OfflinePost;
 
+import java.util.List;
+
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
 
     Context context;
-    RootNewsObject posts;
+    List<NewsItem> posts;
 
     public PostAdapter(Context context) {
         this.context = context;
@@ -36,16 +38,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     @Override
     public int getItemCount() {
-        return posts.getNewsItem().size();
+        return posts.size();
     }
 
-    public void setPosts(RootNewsObject posts) {
+    public void setPosts(List<NewsItem> posts) {
         this.posts = posts;
     }
 
     @Override
     public void onBindViewHolder(@NonNull final PostViewHolder holder, int position) {
-        NewsItem item = posts.getNewsItem().get(position);
+        NewsItem item = posts.get(position);
 
         holder.title.setText(item.getHeadLine());
         holder.content.setText(item.getStory());
@@ -55,7 +57,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             public void onClick(View v) {
                 if(MyApplication.haveNetworkConnection()) {
                     startGhromeTabs(item.getWebURL());
-                    Log.d("myLogs", "onClick " + posts.getNewsItem().get(holder.getAdapterPosition()).getHeadLine());
+                    Log.d("myLogs", "onClick " + posts.get(holder.getAdapterPosition()).getHeadLine());
                 } else {
                     startActivity(item);
                 }

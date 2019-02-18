@@ -41,7 +41,7 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
     @Override
     public void getPosts(boolean fromCache) {
         if(fromCache) {
-            main.displayData(new RootNewsObject(null, dataBase.read(true)));
+            main.displayData(dataBase.read(true));
         } else {
             compositeDisposable = new CompositeDisposable();
             compositeDisposable.add(myAPI.getPostsFromJSON()
@@ -60,7 +60,7 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
                                     .subscribe(new Consumer<List<NewsItem>>() {
                                         @Override
                                         public void accept(List<NewsItem> newsItemJSONS) throws Exception {
-                                            main.displayData(new RootNewsObject(null, newsItemJSONS));
+                                            main.displayData(newsItemJSONS);
                                         }
                                     });
                             compositeDisposable.dispose();
@@ -71,7 +71,7 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
                         public void accept(RootNewsObject posts) throws Exception {
                             Log.d("error", "subcribe " + posts.getNewsItem().get(1).getHeadLine());
                             dataBase.rewrite(posts.getNewsItem());
-                            main.displayData(posts);
+                            main.displayData(posts.getNewsItem());
                             main.setRefreshLayout(false);
                         }
                     })
