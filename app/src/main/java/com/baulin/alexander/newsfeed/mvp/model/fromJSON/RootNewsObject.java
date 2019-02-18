@@ -7,9 +7,9 @@ import java.util.List;
 public class RootNewsObject {
 
     public Pagination Pagination;
-    public List<NewsItemJSON> NewsItem;
+    public List<com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItem> NewsItem;
 
-    public RootNewsObject(Pagination pagination, List<NewsItemJSON> newsItem) {
+    public RootNewsObject(Pagination pagination, List<com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItem> newsItem) {
         Pagination = pagination;
         NewsItem = newsItem;
     }
@@ -22,11 +22,11 @@ public class RootNewsObject {
         Pagination = pagination;
     }
 
-    public List<NewsItemJSON> getNewsItem() {
+    public List<com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItem> getNewsItem() {
         return NewsItem;
     }
 
-    public void setNewsItem(List<NewsItemJSON> newsItem) {
+    public void setNewsItem(List<com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItem> newsItem) {
         NewsItem = newsItem;
     }
 

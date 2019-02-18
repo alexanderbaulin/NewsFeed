@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.baulin.alexander.newsfeed.mvp.model.Data;
 import com.baulin.alexander.newsfeed.mvp.interfaces.Model;
-import com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItemJSON;
+import com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItem;
 import com.baulin.alexander.newsfeed.mvp.model.fromJSON.RootNewsObject;
 import com.baulin.alexander.newsfeed.mvp.presenter.retrofit.RetrofitAPI;
 import com.baulin.alexander.newsfeed.mvp.presenter.retrofit.RetrofitClient;
@@ -37,6 +37,7 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
         myAPI = retrofit.create(RetrofitAPI.class);
     }
 
+
     @Override
     public void getPosts(boolean fromCache) {
         if(fromCache) {
@@ -56,9 +57,9 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
                             Observable.just(dataBase.read(false))
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(new Consumer<List<NewsItemJSON>>() {
+                                    .subscribe(new Consumer<List<NewsItem>>() {
                                         @Override
-                                        public void accept(List<NewsItemJSON> newsItemJSONS) throws Exception {
+                                        public void accept(List<NewsItem> newsItemJSONS) throws Exception {
                                             main.displayData(new RootNewsObject(null, newsItemJSONS));
                                         }
                                     });
@@ -78,9 +79,26 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
         }
     }
 
+
     @Override
     public void onStopActivity() {
         if(compositeDisposable != null)
         compositeDisposable.dispose();
     }
 }
+
+ /*
+    @SuppressLint("CheckResult")
+    private void readAndDisplayData() {
+        Observable.just(data.read())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<NewsItem>>() {
+                    @Override
+                    public void accept(List<NewsItem> newsItems) throws Exception {
+                        main.displayData(newsItems);
+                        main.setRefreshLayout(false);
+                    }
+                });
+    }
+    */

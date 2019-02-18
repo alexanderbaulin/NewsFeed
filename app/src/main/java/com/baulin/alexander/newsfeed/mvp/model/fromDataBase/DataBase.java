@@ -3,7 +3,7 @@ package com.baulin.alexander.newsfeed.mvp.model.fromDataBase;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItemJSON;
+import com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItem;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class DataBase {
         realm = Realm.getDefaultInstance();
     }
 
-    public void setData(List<NewsItemJSON> posts) {
+    public void setData(List<NewsItem> posts) {
         Log.d("myLogs", "execute transaction 2");
 
         realm.executeTransactionAsync(new Realm.Transaction() {
@@ -29,7 +29,7 @@ public class DataBase {
                 RealmResults<NewsItemDB> posts1 = realm.where(NewsItemDB.class).findAll();
                 posts1.deleteAllFromRealm();
 
-                for (NewsItemJSON item : posts) {
+                for (NewsItem item : posts) {
                     NewsItemDB realmObject = realm.createObject(NewsItemDB.class);
                     realmObject.setTitle(item.getHeadLine());
                     realmObject.setStory(item.getStory());
@@ -51,16 +51,16 @@ public class DataBase {
         });
     }
 
-    public List<NewsItemJSON> getData(boolean executeAsyncTransaction) {
+    public List<NewsItem> getData(boolean executeAsyncTransaction) {
 
-        final List<NewsItemJSON> list = new LinkedList<>();
+        final List<NewsItem> list = new LinkedList<>();
 
         Realm.Transaction transaction = new Realm.Transaction() {
             @Override
             public void execute(@NonNull Realm realm) {
                 RealmResults<NewsItemDB> posts = realm.where(NewsItemDB.class).findAll();
                 for (NewsItemDB post : posts) {
-                    NewsItemJSON item = new NewsItemJSON();
+                    NewsItem item = new NewsItem();
                     item.setHeadLine(post.getTitle());
                     item.setStory(post.getStory());
                     item.setDateLine(post.getData());

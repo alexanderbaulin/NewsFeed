@@ -1,6 +1,6 @@
 package com.baulin.alexander.newsfeed.mvp.model.fromJSON;
 
-public class NewsItemJSON {
+public class NewsItem {
 
     public String NewsItemId;
     public String HeadLine;

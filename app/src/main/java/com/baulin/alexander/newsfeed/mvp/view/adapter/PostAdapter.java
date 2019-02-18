@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.baulin.alexander.newsfeed.MyApplication;
 import com.baulin.alexander.newsfeed.R;
-import com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItemJSON;
+import com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItem;
 import com.baulin.alexander.newsfeed.mvp.model.fromJSON.RootNewsObject;
 import com.baulin.alexander.newsfeed.mvp.view.activities.OfflinePost;
 
@@ -45,7 +45,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final PostViewHolder holder, int position) {
-        NewsItemJSON item = posts.getNewsItem().get(position);
+        NewsItem item = posts.getNewsItem().get(position);
 
         holder.title.setText(item.getHeadLine());
         holder.content.setText(item.getStory());
@@ -64,7 +64,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     }
 
-    private void startActivity(NewsItemJSON item) {
+    private void startActivity(NewsItem item) {
         Intent i = new Intent(MyApplication.getContext(), OfflinePost.class);
         i.putExtra("1", item.getHeadLine());
         i.putExtra("2", item.getStory());
