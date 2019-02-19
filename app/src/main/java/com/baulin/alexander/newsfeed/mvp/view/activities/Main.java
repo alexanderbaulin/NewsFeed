@@ -32,6 +32,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import dagger.Component;
 import retrofit2.Retrofit;
 
@@ -62,15 +63,14 @@ public class Main extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
 
         component.injectMainActivity(this);
 
+        ButterKnife.bind(this);
 
         Retrofit retrofit = RetrofitClient.getInstance();
         myAPI = retrofit.create(RetrofitAPI.class);
 
-        recyclerView = findViewById(R.id.recView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        swipeRefreshLayout = findViewById(R.id.swiperefresh);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(this);
 
