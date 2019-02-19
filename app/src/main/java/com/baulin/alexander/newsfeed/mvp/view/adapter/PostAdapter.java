@@ -14,19 +14,24 @@ import android.widget.TextView;
 
 import com.baulin.alexander.newsfeed.MyApplication;
 import com.baulin.alexander.newsfeed.R;
+import com.baulin.alexander.newsfeed.dagger2.components.AppComponent;
 import com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItem;
 import com.baulin.alexander.newsfeed.mvp.model.fromJSON.RootNewsObject;
 import com.baulin.alexander.newsfeed.mvp.view.activities.OfflinePost;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
 
+    @Inject
     Context context;
     List<NewsItem> posts;
 
-    public PostAdapter(Context context) {
-        this.context = context;
+    public PostAdapter() {
+        AppComponent component = MyApplication.getComponent();
+        if(component != null) component.injectPostAdapter(this);
     }
 
     @NonNull
@@ -67,18 +72,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     }
 
     private void startActivity(NewsItem item) {
-        Intent i = new Intent(MyApplication.getContext(), OfflinePost.class);
+        Intent i = new Intent(context, OfflinePost.class);
         i.putExtra("1", item.getHeadLine());
         i.putExtra("2", item.getStory());
-        MyApplication.getContext().startActivity(i);
+        context.startActivity(i);
     }
 
     private void startGhromeTabs(String webURL) {
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-        builder.setToolbarColor(MyApplication.getContext().getResources().getColor(R.color.colorPrimaryDark));
-        builder.setSecondaryToolbarColor(MyApplication.getContext().getResources().getColor(R.color.colorPrimary));
+        
+        builder.setToolbarColor(context.getResources().getColor(R.color.colorPrimaryDark));
+        builder.setSecondaryToolbarColor(context.getResources().getColor(R.color.colorPrimary));
         CustomTabsIntent customTabsIntent = builder.build();
-        customTabsIntent.launchUrl(MyApplication.getContext(), Uri.parse(webURL));
+        customTabsIntent.launchUrl(context, Uri.parse(webURL));
     }
 
     public class PostViewHolder extends RecyclerView.ViewHolder {

@@ -6,6 +6,7 @@ import com.baulin.alexander.newsfeed.dagger2.modules.AppModule;
 import com.baulin.alexander.newsfeed.mvp.interfaces.Model;
 import com.baulin.alexander.newsfeed.mvp.model.Data;
 import com.baulin.alexander.newsfeed.mvp.presenter.Presenter;
+import com.baulin.alexander.newsfeed.mvp.view.adapter.PostAdapter;
 
 import javax.inject.Singleton;
 
@@ -18,5 +19,6 @@ public interface AppComponent {
     Model getData();
     void injectData(Data data);
     void injectPresenter(Presenter presenter);
+    void injectPostAdapter(PostAdapter adapter);
 
 }

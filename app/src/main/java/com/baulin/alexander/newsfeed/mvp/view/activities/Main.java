@@ -62,7 +62,7 @@ public class Main extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(this);
 
-        adapter = new PostAdapter(this);
+        adapter = new PostAdapter();
 
         presenter.setActivity(this);
 
