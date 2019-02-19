@@ -1,4 +1,4 @@
-package com.baulin.alexander.newsfeed.mvp.model.fromDataBase;
+package com.baulin.alexander.newsfeed.mvp.model.dataBase;
 
 import io.realm.RealmObject;
 

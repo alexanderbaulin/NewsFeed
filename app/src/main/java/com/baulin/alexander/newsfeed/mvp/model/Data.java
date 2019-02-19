@@ -2,7 +2,7 @@ package com.baulin.alexander.newsfeed.mvp.model;
 
 
 import com.baulin.alexander.newsfeed.mvp.interfaces.Model;
-import com.baulin.alexander.newsfeed.mvp.model.fromDataBase.DataBase;
+import com.baulin.alexander.newsfeed.mvp.model.dataBase.DataBase;
 import com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItem;
 
 

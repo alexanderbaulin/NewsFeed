@@ -1,7 +1,6 @@
-package com.baulin.alexander.newsfeed.mvp.model.fromDataBase;
+package com.baulin.alexander.newsfeed.mvp.model.dataBase;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItem;
 
