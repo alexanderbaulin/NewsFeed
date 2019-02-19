@@ -15,6 +15,7 @@ import com.baulin.alexander.newsfeed.mvp.presenter.retrofit.RetrofitClient;
 import com.baulin.alexander.newsfeed.mvp.view.activities.Main;
 import com.baulin.alexander.newsfeed.mvp.interfaces.View;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -31,12 +32,12 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
     @Inject
     Model data;
 
-    View main;
     RetrofitAPI myAPI;
     CompositeDisposable compositeDisposable;
+    private WeakReference<View> view;
 
     public void setActivity(Main activity) {
-        main = activity;
+        view = new WeakReference<>(activity);
     }
 
     public Presenter() {
@@ -57,8 +58,8 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
                     .subscribe(new Consumer<List<NewsItem>>() {
                         @Override
                         public void accept(List<NewsItem> newsItemJSONS) throws Exception {
-                            main.displayData(newsItemJSONS);
-                            main.setRefreshLayout(false);
+                            view.get().displayData(newsItemJSONS);
+                            view.get().setRefreshLayout(false);
                         }
                     });
         } else {
@@ -80,8 +81,8 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
                         public void accept(RootNewsObject posts) throws Exception {
                             Log.d("error", "subcribe " + posts.getNewsItem().get(1).getHeadLine());
                             data.rewrite(posts.getNewsItem());
-                            main.displayData(posts.getNewsItem());
-                            main.setRefreshLayout(false);
+                            view.get().displayData(posts.getNewsItem());
+                            view.get().setRefreshLayout(false);
                         }
                     })
             );
