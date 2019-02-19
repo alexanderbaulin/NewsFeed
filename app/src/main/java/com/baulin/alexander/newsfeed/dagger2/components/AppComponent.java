@@ -17,7 +17,6 @@ import dagger.Component;
 public interface AppComponent {
     Context getContext();
     Model getData();
-    void injectData(Data data);
     void injectPresenter(Presenter presenter);
     void injectPostAdapter(PostAdapter adapter);
 

@@ -9,8 +9,5 @@ import dagger.Component;
 @MainActivityScope
 @Component(modules = { MainActivityModule.class }, dependencies = AppComponent.class)
 public interface MainActivityComponent {
-    //Presenter getPresenter();
-    //MainActivity getMainActivity();
-    //CollectionsAndMapsTests getTests();
     void injectMainActivity(Main mainActivity);
 }

@@ -37,7 +37,6 @@ public class MyApplication extends Application {
                 .appModule(new AppModule(this))
                 .build();
 
-       // Log.d("myLogs","context = " + component.getContext());
     }
 
     public static AppComponent getComponent() {

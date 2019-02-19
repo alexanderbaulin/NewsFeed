@@ -20,12 +20,9 @@ public class DataBase {
     }
 
     public void setData(List<NewsItem> posts) {
-        Log.d("myLogs", "execute transaction 2");
-
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(@NonNull Realm realm) {
-                Log.d("myLogs", "execute transaction ");
                 RealmResults<NewsItemDB> posts1 = realm.where(NewsItemDB.class).findAll();
                 posts1.deleteAllFromRealm();
 
@@ -35,18 +32,17 @@ public class DataBase {
                     realmObject.setStory(item.getStory());
                     realmObject.setData(item.getDateLine());
                     realmObject.setUrl(item.getWebURL());
-                    Log.d("myLogs", "add dataItem " + realmObject.getTitle());
                 }
             }
         }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-                Log.d("myLogs", "db write success");
+               // Log.d("myLogs", "db write success");
             }
         }, new Realm.Transaction.OnError() {
             @Override
             public void onError(@NonNull Throwable error) {
-                Log.d("myLogs", "db write error");
+               // Log.d("myLogs", "db write error");
             }
         });
     }
@@ -65,7 +61,7 @@ public class DataBase {
                     item.setStory(post.getStory());
                     item.setDateLine(post.getData());
                     item.setWebURL(post.getUrl());
-                    Log.d("myLogs", "return item " + post.getTitle());
+                  //  Log.d("myLogs", "return item " + post.getTitle());
                     list.add(item);
                 }
             }

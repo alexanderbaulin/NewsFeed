@@ -15,9 +15,9 @@ public class OfflinePost extends AppCompatActivity {
         setContentView(R.layout.post_offline_item);
 
         TextView title = findViewById(R.id.txtTitleOffline);
-        title.setText(getIntent().getStringExtra("1"));
+        title.setText(getIntent().getStringExtra("title"));
 
         TextView story = findViewById(R.id.txtStoryOffline);
-        story.setText(getIntent().getStringExtra("2"));
+        story.setText(getIntent().getStringExtra("story"));
     }
 }

@@ -62,7 +62,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             public void onClick(View v) {
                 if(MyApplication.haveNetworkConnection()) {
                     startGhromeTabs(item.getWebURL());
-                    Log.d("myLogs", "onClick " + posts.get(holder.getAdapterPosition()).getHeadLine());
+                   //Log.d("myLogs", "onClick " + posts.get(holder.getAdapterPosition()).getHeadLine());
                 } else {
                     startActivity(item);
                 }
@@ -73,14 +73,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     private void startActivity(NewsItem item) {
         Intent i = new Intent(context, OfflinePost.class);
-        i.putExtra("1", item.getHeadLine());
-        i.putExtra("2", item.getStory());
+        i.putExtra("title", item.getHeadLine());
+        i.putExtra("story", item.getStory());
         context.startActivity(i);
     }
 
     private void startGhromeTabs(String webURL) {
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-        
+
         builder.setToolbarColor(context.getResources().getColor(R.color.colorPrimaryDark));
         builder.setSecondaryToolbarColor(context.getResources().getColor(R.color.colorPrimary));
         CustomTabsIntent customTabsIntent = builder.build();
