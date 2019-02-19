@@ -23,11 +23,15 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
 
     @Inject
     Context context;
-    List<NewsItem> posts;
+    private List<NewsItem> posts;
 
     public PostAdapter() {
         AppComponent component = MyApplication.getComponent();
@@ -89,10 +93,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     public class PostViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, content, date;
+        @BindView(R.id.txtTitle) TextView title;
+        @BindView(R.id.txtContent) TextView content;
+        @BindView(R.id.txtDate) TextView date;
+
+        private Unbinder binder;
 
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            binder = ButterKnife.bind(this, itemView);
 
             title = itemView.findViewById(R.id.txtTitle);
             content = itemView.findViewById(R.id.txtContent);

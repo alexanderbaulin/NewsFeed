@@ -1,11 +1,17 @@
 package com.baulin.alexander.newsfeed.mvp.view.activities;
 
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.baulin.alexander.newsfeed.MyApplication;
 import com.baulin.alexander.newsfeed.R;
@@ -25,6 +31,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import dagger.Component;
 import retrofit2.Retrofit;
 
@@ -32,12 +39,17 @@ import retrofit2.Retrofit;
 
 public class Main extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, View {
 
-    RetrofitAPI myAPI;
+
+    @BindView(R.id.recView)
     RecyclerView recyclerView;
+    @BindView(R.id.swiperefresh)
     SwipeRefreshLayout swipeRefreshLayout;
-    PostAdapter adapter;
+
     @Inject
     Presenter presenter;
+
+    RetrofitAPI myAPI;
+    PostAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +79,11 @@ public class Main extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
         presenter.setActivity(this);
 
         if(savedInstanceState == null) {
-            Log.d("myLogs", "savedInstanceState == null");
+            //Log.d("myLogs", "savedInstanceState == null");
                 presenter.getPosts(false);
         } else {
                 presenter.getPosts(true);
-            Log.d("myLogs", "savedInstanceState != null");
+            //Log.d("myLogs", "savedInstanceState != null");
         }
     }
 
