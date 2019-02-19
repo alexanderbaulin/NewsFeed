@@ -7,7 +7,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import com.baulin.alexander.newsfeed.MyApplication;
 import com.baulin.alexander.newsfeed.R;
+import com.baulin.alexander.newsfeed.dagger2.components.AppComponent;
+import com.baulin.alexander.newsfeed.dagger2.components.DaggerMainActivityComponent;
+import com.baulin.alexander.newsfeed.dagger2.components.MainActivityComponent;
+import com.baulin.alexander.newsfeed.dagger2.modules.MainActivityModule;
 import com.baulin.alexander.newsfeed.mvp.interfaces.Presenter;
 import com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItem;
 import com.baulin.alexander.newsfeed.mvp.presenter.retrofit.RetrofitAPI;
@@ -20,6 +25,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import dagger.Component;
 import retrofit2.Retrofit;
 
 
@@ -30,12 +36,20 @@ public class Main extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
     PostAdapter adapter;
+    @Inject
     Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        MainActivityComponent component = DaggerMainActivityComponent.builder()
+                .appComponent(MyApplication.getComponent())
+                .build();
+
+        component.injectMainActivity(this);
+
 
         Retrofit retrofit = RetrofitClient.getInstance();
         myAPI = retrofit.create(RetrofitAPI.class);
@@ -50,7 +64,6 @@ public class Main extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
 
         adapter = new PostAdapter(this);
 
-        presenter = new com.baulin.alexander.newsfeed.mvp.presenter.Presenter();
         presenter.setActivity(this);
 
         if(savedInstanceState == null) {
