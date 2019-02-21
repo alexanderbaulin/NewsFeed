@@ -2,14 +2,17 @@ package com.baulin.alexander.newsfeed.mvp.view.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baulin.alexander.newsfeed.MyApplication;
@@ -18,6 +21,14 @@ import com.baulin.alexander.newsfeed.dagger2.components.AppComponent;
 import com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItem;
 import com.baulin.alexander.newsfeed.mvp.model.fromJSON.RootNewsObject;
 import com.baulin.alexander.newsfeed.mvp.view.activities.OfflinePost;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.List;
 
@@ -73,6 +84,31 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             }
         });
 
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
+        requestOptions.centerCrop();
+
+        Glide.with(context)
+                .load(item.getImage().Photo)
+                .apply(requestOptions)
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        Log.d("image", "onLoadFailed ");
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        Log.d("image", "onResourceReady");
+                        return false;
+                    }
+                })
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(holder.photo);
+
+
+
     }
 
     private void startActivity(NewsItem item) {
@@ -96,18 +132,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         @BindView(R.id.txtTitle) TextView title;
         @BindView(R.id.txtContent) TextView content;
         @BindView(R.id.txtDate) TextView date;
-
-        private Unbinder binder;
+        @BindView(R.id.imgView) ImageView photo;
 
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            binder = ButterKnife.bind(this, itemView);
-
-            title = itemView.findViewById(R.id.txtTitle);
-            content = itemView.findViewById(R.id.txtContent);
-            date = itemView.findViewById(R.id.txtDate);
-
+            ButterKnife.bind(this, itemView);
         }
     }
 

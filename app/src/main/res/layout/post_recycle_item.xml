@@ -24,6 +24,13 @@
                 android:text="Title"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/imgView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="image"
+                />
             <TextView
                 android:id="@+id/txtContent"
                 android:layout_width="match_parent"

@@ -2,6 +2,7 @@ package com.baulin.alexander.newsfeed.mvp.model.dataBase;
 
 import android.support.annotation.NonNull;
 
+import com.baulin.alexander.newsfeed.mvp.model.fromJSON.Image;
 import com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItem;
 
 import java.util.LinkedList;
@@ -31,6 +32,7 @@ public class DataBase {
                     realmObject.setStory(item.getStory());
                     realmObject.setData(item.getDateLine());
                     realmObject.setUrl(item.getWebURL());
+                    realmObject.setPhoto(item.getImage().Photo);
                 }
             }
         }, new Realm.Transaction.OnSuccess() {
@@ -60,6 +62,9 @@ public class DataBase {
                     item.setStory(post.getStory());
                     item.setDateLine(post.getData());
                     item.setWebURL(post.getUrl());
+                    Image image = new Image();
+                    image.setPhoto(post.getPhoto());
+                    item.setImage(image);
                   //  Log.d("myLogs", "return item " + post.getTitle());
                     list.add(item);
                 }

@@ -7,7 +7,16 @@ public class NewsItemDB extends RealmObject {
     private String story;
     private String data;
     private String url;
+    private String photo;
 
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 
     public String getTitle() {
         return title;
