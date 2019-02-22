@@ -3,6 +3,7 @@ package com.baulin.alexander.newsfeed.mvp.presenter;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.baulin.alexander.newsfeed.MyApplication;
 import com.baulin.alexander.newsfeed.dagger2.components.AppComponent;
@@ -64,7 +65,7 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
                     });
         } else {
             compositeDisposable = new CompositeDisposable();
-            compositeDisposable.add(myAPI.getPostsFromJSON()
+            compositeDisposable.add(myAPI.getPostsFromJSON("sjson")
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnError(new Consumer<Throwable>() {
@@ -73,6 +74,7 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
                         public void accept(Throwable throwable) throws Exception {
                             Log.d("error", "error accept ");
                             getPosts(true);
+                            Toast.makeText(MyApplication.getComponent().getContext(), "Error: " + throwable.getMessage() + ". Check Internet connection", Toast.LENGTH_SHORT).show();
                             compositeDisposable.dispose();
                         }
                     })

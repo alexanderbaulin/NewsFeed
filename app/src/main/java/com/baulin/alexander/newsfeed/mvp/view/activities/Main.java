@@ -1,5 +1,6 @@
 package com.baulin.alexander.newsfeed.mvp.view.activities;
 
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -51,6 +52,7 @@ public class Main extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
 
     RetrofitAPI myAPI;
     PostAdapter adapter;
+    LinearLayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +71,8 @@ public class Main extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
         myAPI = retrofit.create(RetrofitAPI.class);
 
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
 
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -85,6 +88,16 @@ public class Main extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
                 presenter.getPosts(true);
             //Log.d("myLogs", "savedInstanceState != null");
         }
+
+
+        recyclerView.setOnScrollChangeListener(new android.view.View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(android.view.View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                Log.d("scroll", "getItemCount " + layoutManager.getItemCount());
+                Log.d("scroll", "findLastVisibleItemPosition " + layoutManager.findLastVisibleItemPosition());
+
+            }
+        });
     }
 
 

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baulin.alexander.newsfeed.MyApplication;
 import com.baulin.alexander.newsfeed.R;
@@ -79,6 +80,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                     startGhromeTabs(item.getWebURL());
                    //Log.d("myLogs", "onClick " + posts.get(holder.getAdapterPosition()).getHeadLine());
                 } else {
+                    Toast.makeText(context, "No connection with Internet", Toast.LENGTH_SHORT).show();
                     startActivity(item);
                 }
             }
