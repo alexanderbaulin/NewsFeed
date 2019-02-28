@@ -20,8 +20,8 @@ public class Data implements Model {
     }
 
     @Override
-    public void rewrite(List<NewsItem> posts) {
-        data.setData(posts);
+    public boolean rewrite(List<NewsItem> posts) {
+       return data.setData(posts);
     }
 
 }

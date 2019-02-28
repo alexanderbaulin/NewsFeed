@@ -1,13 +1,11 @@
 package com.baulin.alexander.newsfeed.mvp.presenter;
 
 import android.annotation.SuppressLint;
-import android.app.Application;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.baulin.alexander.newsfeed.MyApplication;
 import com.baulin.alexander.newsfeed.dagger2.components.AppComponent;
-import com.baulin.alexander.newsfeed.mvp.model.Data;
 import com.baulin.alexander.newsfeed.mvp.interfaces.Model;
 import com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItem;
 import com.baulin.alexander.newsfeed.mvp.model.fromJSON.RootNewsObject;
@@ -26,14 +24,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
 
 public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.Presenter {
 
     @Inject
     Model data;
-
-    RetrofitAPI myAPI;
+    @Inject
+    RetrofitAPI client;
     CompositeDisposable compositeDisposable;
     private WeakReference<View> view;
 
@@ -44,9 +41,6 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
     public Presenter() {
         AppComponent component = MyApplication.getComponent();
         if(component != null) component.injectPresenter(this);
-
-        Retrofit retrofit = RetrofitClient.getInstance();
-        myAPI = retrofit.create(RetrofitAPI.class);
     }
 
     @SuppressLint("CheckResult")
@@ -65,7 +59,8 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
                     });
         } else {
             compositeDisposable = new CompositeDisposable();
-            compositeDisposable.add(myAPI.getPostsFromJSON("sjson")
+            Observable<RootNewsObject> posts = client.getPostsFromJSON("sjson");
+            compositeDisposable.add(posts
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnError(new Consumer<Throwable>() {
@@ -81,14 +76,26 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
                     .subscribe(new Consumer<RootNewsObject>() {
                         @Override
                         public void accept(RootNewsObject posts) throws Exception {
-                            Log.d("error", "subcribe " + posts.getNewsItem().get(1).getHeadLine());
-                            data.rewrite(posts.getNewsItem());
+                            Log.d("error", "subscribe " + posts.getNewsItem().get(1).getHeadLine());
+                            rewrite(posts);
                             view.get().displayData(posts.getNewsItem());
                             view.get().setRefreshLayout(false);
                         }
                     })
             );
         }
+    }
+
+    @SuppressLint("CheckResult")
+    private void rewrite(RootNewsObject posts) {
+        Observable.just(data.rewrite(posts.getNewsItem()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {}
+                })
+       ;
     }
 
     @Override

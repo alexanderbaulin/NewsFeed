@@ -19,8 +19,8 @@ public class DataBase {
         realm = Realm.getDefaultInstance();
     }
 
-    public void setData(List<NewsItem> posts) {
-        realm.executeTransactionAsync(new Realm.Transaction() {
+    public boolean setData(List<NewsItem> posts) {
+        realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(@NonNull Realm realm) {
                 RealmResults<NewsItemDB> posts1 = realm.where(NewsItemDB.class).findAll();
@@ -35,17 +35,8 @@ public class DataBase {
                     realmObject.setPhoto(item.getImage().Photo);
                 }
             }
-        }, new Realm.Transaction.OnSuccess() {
-            @Override
-            public void onSuccess() {
-               // Log.d("myLogs", "db write success");
-            }
-        }, new Realm.Transaction.OnError() {
-            @Override
-            public void onError(@NonNull Throwable error) {
-               // Log.d("myLogs", "db write error");
-            }
         });
+        return true;
     }
 
     public List<NewsItem> getData() {

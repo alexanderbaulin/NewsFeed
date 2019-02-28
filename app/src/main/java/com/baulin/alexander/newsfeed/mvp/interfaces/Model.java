@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface Model {
     List<NewsItem> read();
-    void rewrite(List<NewsItem> posts);
+    boolean rewrite(List<NewsItem> posts);
 }

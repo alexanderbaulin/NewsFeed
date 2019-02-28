@@ -39,7 +39,7 @@ import retrofit2.Retrofit;
 
 
 
-public class Main extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, View {
+public class  Main extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, View {
 
 
     @BindView(R.id.recView)
@@ -50,7 +50,6 @@ public class Main extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
     @Inject
     Presenter presenter;
 
-    RetrofitAPI myAPI;
     PostAdapter adapter;
     LinearLayoutManager layoutManager;
 
@@ -66,9 +65,6 @@ public class Main extends AppCompatActivity implements SwipeRefreshLayout.OnRefr
         component.injectMainActivity(this);
 
         ButterKnife.bind(this);
-
-        Retrofit retrofit = RetrofitClient.getInstance();
-        myAPI = retrofit.create(RetrofitAPI.class);
 
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
