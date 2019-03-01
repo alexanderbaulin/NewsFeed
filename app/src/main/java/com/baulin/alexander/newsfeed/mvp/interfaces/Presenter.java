@@ -4,6 +4,6 @@ import com.baulin.alexander.newsfeed.mvp.view.activities.Main;
 
 public interface Presenter {
     void getPosts(boolean fromCache);
-    void onStopActivity();
+    void onDestroyActivity();
     void setActivity(Main activity);
 }

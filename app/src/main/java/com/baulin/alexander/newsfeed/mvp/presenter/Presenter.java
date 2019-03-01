@@ -97,7 +97,7 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
     }
 
     @Override
-    public void onStopActivity() {
+    public void onDestroyActivity() {
         if(compositeDisposable != null)
         compositeDisposable.dispose();
     }
