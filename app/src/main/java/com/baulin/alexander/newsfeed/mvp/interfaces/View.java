@@ -6,5 +6,4 @@ import java.util.List;
 
 public interface View {
     void displayData(List<NewsItem> posts);
-    void setRefreshLayout(boolean isRefresh);
 }

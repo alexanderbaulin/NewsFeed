@@ -78,11 +78,10 @@ public class  Main extends AppCompatActivity implements SwipeRefreshLayout.OnRef
         presenter.setActivity(this);
 
         if(savedInstanceState == null) {
-            //Log.d("myLogs", "savedInstanceState == null");
-                presenter.getPosts(false);
+            setRefreshLayout(true);
+            presenter.getPosts(false);
         } else {
-                presenter.getPosts(true);
-            //Log.d("myLogs", "savedInstanceState != null");
+            presenter.getPosts(true);
         }
 
 
@@ -119,9 +118,9 @@ public class  Main extends AppCompatActivity implements SwipeRefreshLayout.OnRef
         adapter.setPosts(posts);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+        setRefreshLayout(false);
     }
 
-    @Override
     public void setRefreshLayout(boolean isRefresh) {
         swipeRefreshLayout.setRefreshing(isRefresh);
     }

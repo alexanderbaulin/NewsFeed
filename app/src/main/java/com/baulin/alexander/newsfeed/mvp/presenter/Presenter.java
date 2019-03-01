@@ -54,7 +54,6 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
                         @Override
                         public void accept(List<NewsItem> newsItemJSONS) throws Exception {
                             view.get().displayData(newsItemJSONS);
-                            view.get().setRefreshLayout(false);
                         }
                     });
         } else {
@@ -67,7 +66,7 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
                         @SuppressLint("CheckResult")
                         @Override
                         public void accept(Throwable throwable) throws Exception {
-                            Log.d("error", "error accept ");
+                           // Log.d("error", "error accept ");
                             getPosts(true);
                             Toast.makeText(MyApplication.getComponent().getContext(), "Error: " + throwable.getMessage() + ". Check Internet connection", Toast.LENGTH_SHORT).show();
                             compositeDisposable.dispose();
@@ -76,10 +75,9 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
                     .subscribe(new Consumer<RootNewsObject>() {
                         @Override
                         public void accept(RootNewsObject posts) throws Exception {
-                            Log.d("error", "subscribe " + posts.getNewsItem().get(1).getHeadLine());
+                            //Log.d("error", "subscribe " + posts.getNewsItem().get(0).getHeadLine());
                             rewrite(posts);
                             view.get().displayData(posts.getNewsItem());
-                            view.get().setRefreshLayout(false);
                         }
                     })
             );

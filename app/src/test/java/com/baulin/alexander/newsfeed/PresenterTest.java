@@ -2,6 +2,9 @@ package com.baulin.alexander.newsfeed;
 
 
 import com.baulin.alexander.newsfeed.mvp.model.Data;
+import com.baulin.alexander.newsfeed.mvp.model.fromJSON.Image;
+import com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItem;
+import com.baulin.alexander.newsfeed.mvp.model.fromJSON.Pagination;
 import com.baulin.alexander.newsfeed.mvp.model.fromJSON.RootNewsObject;
 import com.baulin.alexander.newsfeed.mvp.presenter.Presenter;
 import com.baulin.alexander.newsfeed.mvp.presenter.retrofit.RetrofitAPI;
@@ -16,6 +19,9 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.MockitoRule;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -46,10 +52,20 @@ public class PresenterTest {
         presenter.setActivity(activity);
         RxAndroidPlugins.setInitMainThreadSchedulerHandler(scheduler -> Schedulers.trampoline());
 
-        testDataFromWeb = new Observable<RootNewsObject>() {
-            @Override
-            protected void subscribeActual(Observer<? super RootNewsObject> observer) { }
-        };
+        List<NewsItem> list = new LinkedList<>();
+
+        NewsItem item = new NewsItem();
+        item.setHeadLine("TestHeadLine");
+        item.setStory("TestStory");
+        item.setDateLine("TestDateLine");
+        Image image = new Image();
+        image.setPhoto("TestPhoto");
+        item.setImage(image);
+
+        list.add(item);
+
+        RootNewsObject rootNewsObject = new RootNewsObject(new Pagination("1", "1", "1", "test"), list);
+        testDataFromWeb = Observable.just(rootNewsObject);
     }
 
     @Test
@@ -66,6 +82,15 @@ public class PresenterTest {
 
         verify(client).getPostsFromJSON("sjson");
 
+    }
+
+    @Test
+    public void testGetPostsFromWebError() {
+        when(client.getPostsFromJSON("sjson")).thenReturn(testDataFromWeb);
+
+        presenter.getPosts(false);
+
+        verify(data).read();
     }
 
 
