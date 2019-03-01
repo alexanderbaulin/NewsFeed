@@ -1,5 +1,6 @@
 package com.baulin.alexander.newsfeed.mvp.view.activities;
 
+import android.content.pm.ActivityInfo;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -64,9 +65,11 @@ public class  Main extends AppCompatActivity implements SwipeRefreshLayout.OnRef
         presenter.setActivity(this);
 
         if(savedInstanceState == null) {
+            fixScreenOrientation(true);
             setRefreshLayout(true);
             presenter.getPosts(false);
         } else {
+            fixScreenOrientation(true);
             presenter.getPosts(true);
         }
 
@@ -96,6 +99,7 @@ public class  Main extends AppCompatActivity implements SwipeRefreshLayout.OnRef
 
     @Override
     public void onRefresh() {
+        fixScreenOrientation(true);
         presenter.getPosts(false);
     }
 
@@ -105,9 +109,18 @@ public class  Main extends AppCompatActivity implements SwipeRefreshLayout.OnRef
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         setRefreshLayout(false);
+        fixScreenOrientation(false);
     }
 
     public void setRefreshLayout(boolean isRefresh) {
         swipeRefreshLayout.setRefreshing(isRefresh);
+    }
+
+    public void fixScreenOrientation(boolean fixScreen) {
+        if(fixScreen) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        }
     }
 }
