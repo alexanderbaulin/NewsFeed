@@ -7,7 +7,7 @@ import com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItem;
 import com.baulin.alexander.newsfeed.mvp.model.fromJSON.Pagination;
 import com.baulin.alexander.newsfeed.mvp.model.fromJSON.RootNewsObject;
 import com.baulin.alexander.newsfeed.mvp.presenter.Presenter;
-import com.baulin.alexander.newsfeed.mvp.presenter.retrofit.RetrofitAPI;
+import com.baulin.alexander.newsfeed.mvp.model.retrofit.RetrofitAPI;
 import com.baulin.alexander.newsfeed.mvp.view.activities.Main;
 
 import org.junit.Before;
@@ -16,7 +16,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.internal.matchers.Any;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.MockitoRule;
@@ -25,11 +24,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.schedulers.Schedulers;
 
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -43,8 +40,6 @@ public class PresenterTest {
     private Data data;
     @Mock
     private Main activity;
-    @Mock
-    private RetrofitAPI client;
 
     private @InjectMocks Presenter presenter;
     private RootNewsObject testDataFromWeb;
@@ -78,9 +73,9 @@ public class PresenterTest {
 
     @Test
     public void testGetPostsFromWeb() {
-        when(client.getPostsFromJSON("sjson")).thenReturn(Observable.just(testDataFromWeb));
+        when(data.getPostsFromJSON("sjson")).thenReturn(Observable.just(testDataFromWeb));
         presenter.getPosts(false);
-        verify(client).getPostsFromJSON("sjson");
+        verify(data).getPostsFromJSON("sjson");
     }
 
 }

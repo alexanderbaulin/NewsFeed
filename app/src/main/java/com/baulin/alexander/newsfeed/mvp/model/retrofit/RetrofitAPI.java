@@ -1,4 +1,4 @@
-package com.baulin.alexander.newsfeed.mvp.presenter.retrofit;
+package com.baulin.alexander.newsfeed.mvp.model.retrofit;
 
 
 

@@ -1,16 +1,12 @@
 package com.baulin.alexander.newsfeed.mvp.presenter;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.baulin.alexander.newsfeed.MyApplication;
 import com.baulin.alexander.newsfeed.dagger2.components.AppComponent;
 import com.baulin.alexander.newsfeed.mvp.interfaces.Model;
 import com.baulin.alexander.newsfeed.mvp.model.fromJSON.NewsItem;
 import com.baulin.alexander.newsfeed.mvp.model.fromJSON.RootNewsObject;
-import com.baulin.alexander.newsfeed.mvp.presenter.retrofit.RetrofitAPI;
-import com.baulin.alexander.newsfeed.mvp.presenter.retrofit.RetrofitClient;
 import com.baulin.alexander.newsfeed.mvp.view.activities.Main;
 import com.baulin.alexander.newsfeed.mvp.interfaces.View;
 
@@ -20,7 +16,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -30,9 +25,7 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
 
     @Inject
     Model data;
-    @Inject
-    RetrofitAPI client;
-    CompositeDisposable compositeDisposable;
+    private CompositeDisposable compositeDisposable;
     private WeakReference<View> view;
 
     public void setActivity(Main activity) {
@@ -59,14 +52,13 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
                     });
         } else {
             compositeDisposable = new CompositeDisposable();
-            compositeDisposable.add(client.getPostsFromJSON("sjson")
+            compositeDisposable.add(data.getPostsFromJSON("sjson")
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnError(new Consumer<Throwable>() {
                         @SuppressLint("CheckResult")
                         @Override
                         public void accept(Throwable throwable) throws Exception {
-                           // Log.d("error", "error accept ");
                             view.get().showToast("Error: " + throwable.getMessage() + ". Check Internet connection");
                             getPosts(true);
                             compositeDisposable.dispose();
@@ -75,7 +67,6 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
                     .subscribe(new Consumer<RootNewsObject>() {
                         @Override
                         public void accept(RootNewsObject posts) throws Exception {
-                            //Log.d("error", "subscribe " + posts.getNewsItem().get(0).getHeadLine());
                             rewrite(posts);
                             view.get().displayData(posts.getNewsItem());
                         }
