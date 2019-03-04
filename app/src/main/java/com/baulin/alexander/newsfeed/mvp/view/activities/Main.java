@@ -129,4 +129,8 @@ public class  Main extends AppCompatActivity implements SwipeRefreshLayout.OnRef
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
     }
+
+    public int getRecyclerViewItemsCount() {
+        return this.adapter.getItemCount();
+    }
 }
