@@ -20,6 +20,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -58,8 +59,7 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
                     });
         } else {
             compositeDisposable = new CompositeDisposable();
-            Observable<RootNewsObject> posts = client.getPostsFromJSON("sjson");
-            compositeDisposable.add(posts
+            compositeDisposable.add(client.getPostsFromJSON("sjson")
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnError(new Consumer<Throwable>() {
@@ -67,8 +67,8 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
                         @Override
                         public void accept(Throwable throwable) throws Exception {
                            // Log.d("error", "error accept ");
+                            view.get().showToast("Error: " + throwable.getMessage() + ". Check Internet connection");
                             getPosts(true);
-                            Toast.makeText(MyApplication.getComponent().getContext(), "Error: " + throwable.getMessage() + ". Check Internet connection", Toast.LENGTH_SHORT).show();
                             compositeDisposable.dispose();
                         }
                     })

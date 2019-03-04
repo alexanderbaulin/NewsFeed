@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.baulin.alexander.newsfeed.MyApplication;
 import com.baulin.alexander.newsfeed.R;
@@ -110,6 +111,11 @@ public class  Main extends AppCompatActivity implements SwipeRefreshLayout.OnRef
         adapter.notifyDataSetChanged();
         setRefreshLayout(false);
         fixScreenOrientation(false);
+    }
+
+    @Override
+    public void showToast(String s) {
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
 
     public void setRefreshLayout(boolean isRefresh) {

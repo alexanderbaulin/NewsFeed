@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.internal.matchers.Any;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.MockitoRule;
@@ -28,6 +29,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.schedulers.Schedulers;
 
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -45,7 +47,7 @@ public class PresenterTest {
     private RetrofitAPI client;
 
     private @InjectMocks Presenter presenter;
-    private Observable<RootNewsObject> testDataFromWeb;
+    private RootNewsObject testDataFromWeb;
 
     @Before
     public void init() {
@@ -64,37 +66,21 @@ public class PresenterTest {
 
         list.add(item);
 
-        RootNewsObject rootNewsObject = new RootNewsObject(new Pagination("1", "1", "1", "test"), list);
-        testDataFromWeb = Observable.just(rootNewsObject);
+        testDataFromWeb = new RootNewsObject(new Pagination("1", "1", "1", "test"), list);
     }
 
     @Test
     public void testGetPostsFromCache() {
+        when(data.read()).thenReturn(testDataFromWeb.getNewsItem());
         presenter.getPosts(true);
-        verify(data).read();
+        verify(activity).displayData(testDataFromWeb.getNewsItem());
     }
 
     @Test
     public void testGetPostsFromWeb() {
-        when(client.getPostsFromJSON("sjson")).thenReturn(testDataFromWeb);
-
+        when(client.getPostsFromJSON("sjson")).thenReturn(Observable.just(testDataFromWeb));
         presenter.getPosts(false);
-
         verify(client).getPostsFromJSON("sjson");
-
     }
-
-    @Test
-    public void testGetPostsFromWebError() {
-        when(client.getPostsFromJSON("sjson")).thenReturn(testDataFromWeb);
-
-        presenter.getPosts(false);
-
-        verify(data).read();
-    }
-
-
-
-
 
 }

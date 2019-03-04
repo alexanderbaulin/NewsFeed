@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface View {
     void displayData(List<NewsItem> posts);
+    void showToast(String s);
 }
