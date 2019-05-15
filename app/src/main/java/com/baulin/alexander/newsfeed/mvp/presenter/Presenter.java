@@ -55,20 +55,17 @@ public class Presenter implements com.baulin.alexander.newsfeed.mvp.interfaces.P
             compositeDisposable.add(data.getPostsFromJSON("sjson")
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .doOnError(new Consumer<Throwable>() {
-                        @SuppressLint("CheckResult")
-                        @Override
-                        public void accept(Throwable throwable) throws Exception {
-                            view.get().showToast("Error: " + throwable.getMessage() + ". Check Internet connection");
-                            getPosts(true);
-                            compositeDisposable.dispose();
-                        }
-                    })
                     .subscribe(new Consumer<RootNewsObject>() {
                         @Override
                         public void accept(RootNewsObject posts) throws Exception {
                             rewrite(posts);
                             view.get().displayData(posts.getNewsItem());
+                        }
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(Throwable throwable) throws Exception {
+                            view.get().showToast("Error: " + throwable.getMessage() + ". Check Internet connection");
+                            getPosts(true);
                         }
                     })
             );

@@ -65,12 +65,12 @@ public class  Main extends AppCompatActivity implements SwipeRefreshLayout.OnRef
 
         presenter.setActivity(this);
 
+        fixScreenOrientation(true);
+
         if(savedInstanceState == null) {
-            fixScreenOrientation(true);
             setRefreshLayout(true);
             presenter.getPosts(false);
         } else {
-            fixScreenOrientation(true);
             presenter.getPosts(true);
         }
 
@@ -116,6 +116,7 @@ public class  Main extends AppCompatActivity implements SwipeRefreshLayout.OnRef
     @Override
     public void showToast(String s) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+        fixScreenOrientation(false);
     }
 
     public void setRefreshLayout(boolean isRefresh) {

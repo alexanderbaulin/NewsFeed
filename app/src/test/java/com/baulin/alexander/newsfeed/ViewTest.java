@@ -31,6 +31,7 @@ public class ViewTest {
     @Test
     public void testOnRefresh() {
         activity.onRefresh();
+
         verify(presenter).getPosts(false);
     }
 
